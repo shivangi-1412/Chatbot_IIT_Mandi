@@ -1,0 +1,264 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            font-family: Roboto;
+            color: rgb(245, 245, 245);
+
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0px;
+            background-color: hsl(0, 0%, 20%);
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            margin: 0%;
+            width: 100vw;
+            height: 90vh;
+            border-radius: 0%;
+            padding-left: 20%;
+            padding-right: 18%;
+            background-color: hsl(0, 0%, 20%);
+        }
+
+        .card-header {
+            padding-left: 80px;
+            position: sticky;
+            top: 0px;
+            background-color: hsl(0, 0%, 20%);
+            box-sizing: border-box;
+            display: flex;
+            width: 100%;
+        }
+
+        .send_btn {
+            background-color: rgb(185, 185, 185);
+            border-radius: 10%;
+        }
+
+        .user_info {
+            color: rgb(245, 245, 245);
+            font-size: larger;
+            font-weight: 500;
+            justify-items: flex-start;
+            align-content: center;
+        }
+
+        .msg_time_send {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            font-size: 8px;
+            color: rgb(211, 211, 211);
+            z-index: 3;
+        }
+
+        .msg_cotainer_send {
+            position: relative;
+            padding: 12px;
+            padding-bottom: 20px;
+            border: 2px;
+            border-radius: 10px;
+            background-color: rgb(65, 65, 65);
+
+        }
+
+        .msg_cotainer {
+            position: relative;
+            padding: 12px;
+            padding-bottom: 20px;
+            border: 2px;
+            white-space: pre-wrap;
+            border-radius: 10px;
+        }
+
+        .msg_time {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            font-size: 8px;
+            color: rgb(96, 96, 96);
+            z-index: 3;
+        }
+
+        .msg_card_body {
+            padding-right: 20px;
+            overflow-y: auto;
+            max-height: 75vh;
+        }
+
+        .msg_card_body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .msg_card_body::-webkit-scrollbar-track {
+            background: rgb(84, 84, 84);
+            border-radius: 10px;
+        }
+
+        .msg_card_body::-webkit-scrollbar-thumb {
+            background-color: rgb(45, 45, 45);
+            border-radius: 10px;
+            border: 3px solid rgb(84, 84, 84);
+        }
+
+        .msg_card_body::-webkit-scrollbar-thumb:hover {
+            background-color: rgb(45, 45, 45);
+        }
+
+        .card-footer {
+            background-color: rgba(77, 77, 77, 0);
+            border: none;
+            padding-left: 5px;
+            padding-right: 5px;
+            position: fixed;
+            width: 60%;
+            align-self: center;
+            bottom: 5vh;
+            margin-bottom: -32px;
+        }
+
+        /* .card-body{
+            background-color: #4A90E2;
+        } */
+
+        #messageFormeight {
+            margin-top: 8vh;
+        }
+
+        .warning {
+            margin-top: 8px;
+            font-size: xx-small;
+            padding-left: 35%;
+            color: rgb(211, 211, 211);
+        }
+
+        #text {
+            outline: none;
+            margin-left: 12px;
+            border-radius: 20px;
+            border: none;
+            background-color: #f2f2f200;
+            color: rgb(245, 245, 245);
+        }
+
+        #messageArea {
+            height: 52px;
+            background-color: rgb(65, 65, 65);
+            border-radius: 30px;
+            align-items: center;
+        }
+
+        #send {
+            z-index: 2;
+            height: 40px;
+            width: 40px;
+            border: none;
+            margin-right: 10px;
+            border-radius: 30px;
+            background-color: rgb(84, 84, 84);
+        }
+
+        #messageFormeight {
+            margin-top: 0px;
+        }
+
+        .bold {
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
+
+        .bold1 {
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="card-header msg_head">
+        <div class="d-flex bd-highlight">
+            <div class="user_info">
+                <span>ChatBot</span>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div id="messageFormeight" class="card-body msg_card_body">
+        </div>
+        <div class="card-footer">
+            <form id="messageArea" class="input-group">
+                <input type="text" id="text" name="msg" placeholder="Message ChatBOT" autocomplete="off"
+                    class="form-control type_msg" required />
+                <div class="input-group-append">
+                    <button type="submit" id="send" class="input-group-text send_btn"><i
+                            class="fas fa-location-arrow"></i></button>
+                </div>
+            </form>
+            <div class="warning">ChatBOT can make mistakes. Check important info.</div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#messageArea").on("submit", function (event) {
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour + ":" + minute;
+                var rawText = $("#text").val();
+
+                var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<div class="msg_time_send">' + str_time + '</div></div>';
+                userHtml = userHtml.replace(/\*(.*?)\*/g, '<span class="bold">$1</span>');
+                $("#text").val("");
+                $("#messageFormeight").append(userHtml);
+
+                $.ajax({
+                    data: {
+                        msg: rawText,
+                    },
+                    type: "POST",
+                    url: "/reply",
+                }).done(function (data) {
+                    var data = data.replace(/\*(.*?)\*/g, '<span class="bold1">$1</span>');
+                    var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="msg_cotainer">' + data + '<span class="msg_time"></span></div></div>';
+                    $("#messageFormeight").append($.parseHTML(botHtml));
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
